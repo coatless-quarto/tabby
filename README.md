@@ -1,25 +1,115 @@
-# Quarto Extension Development with Lua in a Devcontainer
+# Tabby - Automatic Code Tabsets for Quarto
 
-This repository houses a devcontainer that setups a [Quarto extension development environment](https://quarto.org/docs/extensions/lua.html). The container is setup to work with [GitHub Codespaces](https://github.com/features/codespaces) to instantly have a cloud-based developer workflow.
+Tabby is a Quarto extension that automatically creates tabsets for code blocks, making it easy to present multiple programming language implementations side by side. It leverages Quarto's Tabset API to create an integrated tabbing experience.
 
-You can try out the Codespace by clicking on the following button:
+## Installation
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/coatless-devcontainer/quarto-extension-dev?quickstart=1)
+To install Tabby, run the following command in your project directory:
 
-**Note:** Codespaces are available to Students and Teachers for free [up to 180 core hours per month](https://docs.github.com/en/education/manage-coursework-with-github-classroom/integrate-github-classroom-with-an-ide/using-github-codespaces-with-github-classroom#about-github-codespaces) through [GitHub Education](https://education.github.com/). Otherwise, you will have [up to 60 core hours and 15 GB free per month](https://github.com/features/codespaces#pricing).
+```bash
+quarto add coatless-quarto/tabby
+```
 
-The devcontainer contains:
+This will install the extension under the `_extensions` subdirectory. If you're using version control, you will want to check in this directory.
 
-- The latest [pre-release](https://quarto.org/docs/download/prerelease) version of Quarto.
-- [Quarto VS Code Extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto).
-- [Lua LSP VS Code Extension](https://marketplace.visualstudio.com/items?itemName=sumneko.lua) for Lua code intelligence.
-- [GitHub copilot VS Code Extension](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot).
-- `R` and `Python`
-- `knitr` and `jupyter`
+## Usage
 
-## References
+### Setup
 
-- [Quarto: Lua API Reference](https://quarto.org/docs/extensions/lua-api.html)
-- [Quarto: Lua Development](https://quarto.org/docs/extensions/lua.html)
-- [Pandoc: Lua Filters](https://pandoc.org/lua-filters.html)
-- [Lua: Manual](https://www.lua.org/manual/5.4/)
+Add the filter to your document's YAML header or your project's `_quarto.yml` file:
+
+```yaml
+filters:
+  - tabby
+```
+
+### Basic Example
+
+Create a tabset by wrapping code blocks in a div with the `tabby` class:
+
+````markdown
+::: {.tabby}
+```python
+print("Hello, World!")
+```
+
+```javascript
+console.log("Hello, World!");
+```
+
+```r
+print("Hello, World!")
+```
+:::
+````
+
+This will automatically create a tabset with three tabs: "Python", "Javascript", and "R", each containing the respective code.
+
+### Default Tab Selection
+
+You can set the default selected tab in three ways, listed in order of precedence (highest to lowest):
+
+1. **URL Parameter** - Add `?default-tab=python` to your URL
+   ```
+   https://your-doc-url.html?default-tab=python
+   ```
+
+2. **Individual Tabset** - Use div attributes:
+   ```markdown
+   ::: {.tabby default-tab="javascript"}
+   ...
+   :::
+   ```
+
+3. **Document Level** - Set in YAML frontmatter:
+   ```yaml
+   tabby:
+     default-tab: python
+   ```
+
+### Tab Groups
+
+Synchronize tab selection across multiple tabsets using the `group` attribute, similar to [Quarto Tabsets](https://quarto.org/docs/output-formats/html-basics.html#tabset-groups):
+
+````markdown
+::: {.tabby group="mygroup"}
+```python
+def greet():
+    print("Hello!")
+```
+
+```javascript
+function greet() {
+    console.log("Hello!");
+}
+```
+:::
+
+Some text in between...
+
+::: {.tabby group="mygroup"}
+```python
+greet()
+```
+
+```javascript
+greet();
+```
+:::
+````
+
+When you switch tabs in one tabset, all tabsets in the same group will switch to the same language.
+
+## Configuration Options
+
+| Option | Description | Default | Example |
+|--------|-------------|---------|----------|
+| `default-tab` | Sets the default selected tab | `1` | `python`, `r`, `javascript` |
+| `group` | Groups tabs across multiple tabsets | `null` | `"mygroup"` |
+
+Configure options in your document's YAML frontmatter:
+
+```yaml
+tabby:
+  default-tab: python    # Default tab selection
+```
