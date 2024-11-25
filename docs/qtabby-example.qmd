@@ -209,11 +209,131 @@ console.log("Hello from JavaScript!");
 ```
 :::
 
+## Code Execution with Results
+
+Tabby also supports code execution with results. Here's an example that generates random data and calculates summary statistics:
+
+<details>
+<summary>Source (Click to Expand)</summary>
+
+````markdown
+::: {.tabby}
+```{{python}}
+import numpy as np
+
+# Generate some random data
+data = np.random.normal(0, 1, 1000)
+
+# Calculate summary statistics
+mean = np.mean(data)
+std = np.std(data)
+
+print(f"Mean: {mean:.2f}")
+print(f"Standard Deviation: {std:.2f}")
+```
+
+```{{r}}
+#| echo: true
+#| output: true
+
+# Generate random data
+data <- rnorm(1000)
+
+# Calculate summary statistics
+cat("Mean:", mean(data), "\n")
+cat("Standard Deviation:", sd(data))
+```
+:::
+````
+</details>
+
+
+::: {.tabby}
+```{python}
+import numpy as np
+
+# Generate some random data
+data = np.random.normal(0, 1, 1000)
+
+# Calculate summary statistics
+mean = np.mean(data)
+std = np.std(data)
+
+print(f"Mean: {mean:.2f}")
+print(f"Standard Deviation: {std:.2f}")
+```
+
+```{r}
+#| echo: true
+#| output: true
+
+# Generate random data
+data <- rnorm(1000)
+
+# Calculate summary statistics
+cat("Mean:", mean(data), "\n")
+cat("Standard Deviation:", sd(data))
+```
+:::
+
+
+Code may also render figures. Here's an example that generates a distribution plot using Python and R:
+
+<details>
+<summary>Source (Click to Expand)</summary>
+````markdown
+::: {.tabby}
+```{{python}}
+#| label: fig-python
+#| fig-cap: "Distribution plot using Python"
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(8, 4))
+sns.histplot(data, bins=30)
+plt.title("Normal Distribution")
+plt.show()
+```
+
+```{{r}}
+#| label: fig-r
+#| fig-cap: "Distribution plot using R"
+
+hist(data, main="Normal Distribution", breaks=30)
+```
+:::
+````
+</details>
+
+::: {.tabby}
+```{python}
+#| label: fig-python
+#| fig-cap: "Distribution plot using Python"
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(8, 4))
+sns.histplot(data, bins=30)
+plt.title("Normal Distribution")
+plt.show()
+```
+
+```{r}
+#| label: fig-r
+#| fig-cap: "Distribution plot using R"
+
+hist(data, main="Normal Distribution", breaks=30)
+```
+:::
+
+
 # URL Parameters
 
 You can also specify the default tab via URL parameter:
-`?default-tab=Python` or `?default-tab=R`
+`?default-tab=python` or `?default-tab=r`
 
 Try it by clicking on the following link:
 
-<https://quarto.thecoatlessprofessor.com/tabby/qtabby-example.html?default-tab=Python>
+<https://quarto.thecoatlessprofessor.com/tabby/qtabby-example.html?default-tab=python>

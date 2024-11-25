@@ -27,13 +27,13 @@ filters:
   - tabby
 ```
 
-### Basic Example
+### Automatic Tabsets
 
 Create a tabset by wrapping code blocks in a div with the `tabby` class:
 
 ````markdown
 ::: {.tabby}
-```python
+```{python}
 print("Hello, World!")
 ```
 
@@ -41,13 +41,13 @@ print("Hello, World!")
 console.log("Hello, World!");
 ```
 
-```r
+```{r}
 print("Hello, World!")
 ```
 :::
 ````
 
-This will automatically create a tabset with three tabs: "Python", "Javascript", and "R", each containing the respective code.
+This will automatically create a tabset with three tabs: "Python", "Javascript", and "R", each containing the respective code and, where applicable, its output.
 
 ### Default Tab Selection
 
