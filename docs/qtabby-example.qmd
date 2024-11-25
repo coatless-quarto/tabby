@@ -1,14 +1,201 @@
 ---
-title: Tabby
-format: html
+title: "Demonstrating Tabby Extension"
+format: 
+  html:
+    toc: true
+filters:
+  - tabby  # Include the tabby filter
 tabby:
-  default-tab: "Javascript"
-filters: [tabby]
+  default-tab: "javascript"  # Set Javascript as the default tab document-wide
 ---
 
-## First Group
+# Introduction
 
-::: {.tabby group="setup"}
+This document demonstrates the Tabby extension for Quarto, which automatically creates tabsets for code blocks.
+
+## Document Header
+
+The document header specifies the default tab as Python:
+
+```markdown
+---
+title: "Demonstrating Tabby Extension"
+format: 
+  html:
+    toc: true
+filters:
+  - tabby  # Include the tabby filter
+tabby:
+  default-tab: "javascript"  # Set Javascript as the default tab document-wide
+---
+```
+
+## Basic Usage
+
+Here's a simple example showing the same algorithm in different languages:
+
+<details>
+<summary>Source (Click to Expand)</summary>
+
+````markdown
+::: {.tabby}
+```python
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# Calculate first 5 Fibonacci numbers
+for i in range(5):
+    print(fibonacci(i))
+```
+
+```javascript
+function fibonacci(n) {
+    if (n <= 1) return n;
+    return fibonacci(n-1) + fibonacci(n-2);
+}
+
+// Calculate first 5 Fibonacci numbers
+for (let i = 0; i < 5; i++) {
+    console.log(fibonacci(i));
+}
+```
+
+```r
+fibonacci <- function(n) {
+    if (n <= 1) return(n)
+    return(fibonacci(n-1) + fibonacci(n-2))
+}
+
+# Calculate first 5 Fibonacci numbers
+for(i in seq_len(5)) {
+    print(fibonacci(i))
+}
+```
+:::
+````
+</details>
+
+::: {.tabby}
+```python
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# Calculate first 5 Fibonacci numbers
+for i in range(5):
+    print(fibonacci(i))
+```
+
+```javascript
+function fibonacci(n) {
+    if (n <= 1) return n;
+    return fibonacci(n-1) + fibonacci(n-2);
+}
+
+// Calculate first 5 Fibonacci numbers
+for (let i = 0; i < 5; i++) {
+    console.log(fibonacci(i));
+}
+```
+
+```r
+fibonacci <- function(n) {
+    if (n <= 1) return(n)
+    return(fibonacci(n-1) + fibonacci(n-2))
+}
+
+# Calculate first 5 Fibonacci numbers
+for(i in seq_len(5)) {
+    print(fibonacci(i))
+}
+```
+:::
+
+## Grouped Tabs
+
+You can group related tabs together using the `group` attribute:
+
+<details>
+<summary>Source (Click to Expand)</summary>
+
+````markdown
+::: {.tabby group="data-loading"}
+```python
+import pandas as pd
+data = pd.read_csv('data.csv')
+```
+
+```r
+data <- read.csv('data.csv')
+```
+:::
+
+::: {.tabby group="data-loading"}
+```python
+# Check the first few rows
+print(data.head())
+```
+
+```r
+# Check the first few rows
+head(data)
+```
+:::
+````
+</details>
+
+::: {.tabby group="data-loading"}
+```python
+import pandas as pd
+data = pd.read_csv('data.csv')
+```
+
+```r
+data <- read.csv('data.csv')
+```
+:::
+
+::: {.tabby group="data-loading"}
+```python
+# Check the first few rows
+print(data.head())
+```
+
+```r
+# Check the first few rows
+head(data)
+```
+:::
+
+## Override Default Tab
+
+You can override the document-wide default tab for specific code blocks:
+
+<details>
+<summary>Source (Click to Expand)</summary>
+
+````markdown
+::: {.tabby default-tab="r"}
+```python
+print("Hello from Python!")
+```
+
+```r
+print("Hello from R!")
+```
+
+```javascript
+console.log("Hello from JavaScript!");
+```
+:::
+````
+</details>
+
+
+::: {.tabby default-tab="r"}
 ```python
 print("Hello from Python!")
 ```
@@ -22,35 +209,7 @@ console.log("Hello from JavaScript!");
 ```
 :::
 
-## Second Group
+# URL Parameters
 
-::: {.tabby group="setup"}
-```python
-print("Good Afternoon from Python!")
-```
-
-```r
-print("Good Afternoon from R!")
-```
-
-```javascript
-console.log("Good Afternoon from JavaScript!");
-```
-:::
-
-## Third Group
-
-::: {.tabby}
-```python
-print("Goodbye from Python!")
-```
-
-```r
-print("Goodbye from R!")
-```
-
-```javascript
-console.log("Goodbye from JavaScript!");
-```
-:::
-
+You can also specify the default tab via URL parameter:
+`?default-tab=Python` or `?default-tab=R`
