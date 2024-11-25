@@ -36,11 +36,13 @@ jobs:
         - name: "Setup R dependencies for Quarto's knitr engine"
           uses: r-lib/actions/setup-r-dependencies@v2
           with:
+            Ncpus: '2L'
             packages:
               any::knitr
               any::rmarkdown
               any::downlit
               any::xml2
+              any::reticulate
 
         - name: "Set up Quarto"
           uses: quarto-dev/quarto-actions/setup@v2
