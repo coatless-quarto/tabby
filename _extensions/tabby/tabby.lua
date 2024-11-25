@@ -22,11 +22,21 @@ local document_metadata = {
     tabby_url_handler_added = false
 }
 
--- Helper function to get language from code block
----@param block CodeBlock The code block to extract language from
----@return string language The programming language of the code block, defaults to "text"
+-- Helper function to get language from code block or cell
+---@param block Block The block to extract language from
+---@return string language The programming language, defaults to "text"
 local function get_language(block)
-    return block.attr.classes[1] or "text"
+    if block.t == 'CodeBlock' then
+        return block.attr.classes[1] or "text"
+    elseif block.t == 'Div' and block.classes:includes('cell') then
+        -- Find the first code block in the cell and get its language
+        for _, content in ipairs(block.content) do
+            if content.t == 'CodeBlock' and content.attr.classes[1] then
+                return content.attr.classes[1]
+            end
+        end
+    end
+    return "text"
 end
 
 -- Helper function to create a tab label from language
@@ -53,18 +63,17 @@ local function get_default_language(local_default)
 end
 
 -- Helper function to find index of default language
----@param code_blocks CodeBlock[] List of code blocks to search
+---@param blocks Block[] List of blocks to search
 ---@param default_lang string|nil The default language to find
 ---@return number index The index of the default language (1-based), returns 1 if not found
-local function find_default_tab_index(code_blocks, default_lang)
-    
+local function find_default_tab_index(blocks, default_lang)
     if not default_lang then
         return 1
     end
     
     default_lang = default_lang:lower()
     
-    for i, block in ipairs(code_blocks) do
+    for i, block in ipairs(blocks) do
         local lang = get_language(block):lower()
         if lang == default_lang then
             return i
@@ -75,20 +84,20 @@ local function find_default_tab_index(code_blocks, default_lang)
 end
 
 -- Helper function to reorder tabs so default is first
----@param code_blocks CodeBlock[] List of code blocks to arrange
+---@param blocks Block[] List of blocks to arrange
 ---@param default_index number The 1-based index of the default tab
----@return CodeBlock[] reordered_blocks The reordered code blocks
-local function reorder_for_default(code_blocks, default_index)
+---@return Block[] reordered_blocks The reordered blocks
+local function reorder_for_default(blocks, default_index)
     if default_index == 1 then
-        return code_blocks
+        return blocks
     end
     
     local result = {}
     -- First add the default block
-    table.insert(result, code_blocks[default_index])
+    table.insert(result, blocks[default_index])
     
     -- Then add all other blocks in their original order
-    for i, block in ipairs(code_blocks) do
+    for i, block in ipairs(blocks) do
         if i ~= default_index then
             table.insert(result, block)
         end
@@ -96,7 +105,6 @@ local function reorder_for_default(code_blocks, default_index)
     
     return result
 end
-
 
 -- Create URL handler JavaScript as a raw block
 ---@return table raw_block A pandoc RawBlock containing the JavaScript URL handler
@@ -125,7 +133,6 @@ end
 -- Load metadata and store it at the module level
 ---@return table meta The processed metadata
 function Meta(meta)
-    
     if meta and meta.tabby then
         -- Copy all key-value pairs using a loop
         for key, value in pairs(meta.tabby) do
@@ -135,30 +142,29 @@ function Meta(meta)
     return meta
 end
 
--- Process div elements to create tabsets for code blocks under the 'tabby' class
+-- Process div elements to create tabsets for code blocks and cells under the 'tabby' class
 ---@return table processed_div The processed div element
 function Div(div)
-
     -- Only process divs with class 'tabby'
     if not div.classes:includes('tabby') then
         return div
     end
 
-    -- Find all code blocks and other content within the div
-    ---@type CodeBlock[]
+    -- Find all code blocks, cells, and other content within the div
+    ---@type Block[]
     local code_blocks = {}
     ---@type pandoc.List
     local other_content = pandoc.List()
     
     for _, block in ipairs(div.content) do
-        if block.t == 'CodeBlock' then
+        if block.t == 'CodeBlock' or (block.t == 'Div' and block.classes:includes('cell')) then
             table.insert(code_blocks, block)
         else
             other_content:insert(block)
         end
     end
 
-    -- If no code blocks found, return original div
+    -- If no code blocks or cells found, return original div
     if #code_blocks == 0 then
         return div
     end
@@ -176,14 +182,14 @@ function Div(div)
     -- Reorder blocks so default is first
     local ordered_blocks = reorder_for_default(code_blocks, default_index)
     
-    -- Create tabs for each code block
+    -- Create tabs for each block
     ---@type table[]
     local tabs = {}
-    for i, code_block in ipairs(ordered_blocks) do
-        local lang = get_language(code_block)
+    for _, block in ipairs(ordered_blocks) do
+        local lang = get_language(block)
         local tab = quarto.Tab({
             title = create_tab_label(lang),
-            content = pandoc.Blocks({code_block})
+            content = pandoc.Blocks({block})
         })
         table.insert(tabs, tab)
     end
@@ -209,13 +215,11 @@ function Div(div)
         attr = pandoc.Attr("", {"panel-tabset"}, tabset_attrs)
     })
 
-
     -- Create final content
     local final_content = pandoc.List()
 
     final_content:extend(other_content)
     final_content:insert(tabset_raw)
-    
     
     -- Add URL handler script only once
     if not document_metadata.tabby_url_handler_added then
