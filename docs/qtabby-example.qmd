@@ -6,7 +6,7 @@ format:
 filters:
   - tabby  # Include the tabby filter
 tabby:
-  default-tab: "javascript"  # Set Javascript as the default tab document-wide
+  default-tab: "r"  # Set R as the default tab document-wide
 ---
 
 # Introduction
@@ -26,7 +26,7 @@ format:
 filters:
   - tabby  # Include the tabby filter
 tabby:
-  default-tab: "javascript"  # Set Javascript as the default tab document-wide
+  default-tab: "r"  # Set R as the default tab document-wide
 ---
 ```
 
@@ -172,13 +172,13 @@ head(data)
 
 ## Override Default Tab
 
-You can override the document-wide default tab for specific code blocks:
+You can override the document-wide default tab for specific code blocks. Here's an example with Javascript as the default tab:
 
 <details>
 <summary>Source (Click to Expand)</summary>
 
 ````markdown
-::: {.tabby default-tab="r"}
+::: {.tabby default-tab="javascript"}
 ```python
 print("Hello from Python!")
 ```
@@ -195,7 +195,7 @@ console.log("Hello from JavaScript!");
 </details>
 
 
-::: {.tabby default-tab="r"}
+::: {.tabby default-tab="javascript"}
 ```python
 print("Hello from Python!")
 ```
