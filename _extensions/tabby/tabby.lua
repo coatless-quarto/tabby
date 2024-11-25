@@ -17,7 +17,10 @@
 
 -- Store metadata at the module level
 ---@type DocumentMetadata
-local document_metadata = {}
+local document_metadata = {
+    tabby = {},
+    tabby_url_handler_added = false
+}
 
 -- Helper function to get language from code block
 ---@param block CodeBlock The code block to extract language from
@@ -30,7 +33,6 @@ end
 ---@param lang string The programming language identifier
 ---@return string label The formatted label with first letter capitalized
 local function create_tab_label(lang)
-    quarto.log.debug("Creating tab label for language: " .. lang)
     local label = lang:gsub("^%l", string.upper)
     return label
 end
@@ -55,6 +57,7 @@ end
 ---@param default_lang string|nil The default language to find
 ---@return number index The index of the default language (1-based), returns 1 if not found
 local function find_default_tab_index(code_blocks, default_lang)
+    
     if not default_lang then
         return 1
     end
@@ -70,6 +73,30 @@ local function find_default_tab_index(code_blocks, default_lang)
     
     return 1
 end
+
+-- Helper function to reorder tabs so default is first
+---@param code_blocks CodeBlock[] List of code blocks to arrange
+---@param default_index number The 1-based index of the default tab
+---@return CodeBlock[] reordered_blocks The reordered code blocks
+local function reorder_for_default(code_blocks, default_index)
+    if default_index == 1 then
+        return code_blocks
+    end
+    
+    local result = {}
+    -- First add the default block
+    table.insert(result, code_blocks[default_index])
+    
+    -- Then add all other blocks in their original order
+    for i, block in ipairs(code_blocks) do
+        if i ~= default_index then
+            table.insert(result, block)
+        end
+    end
+    
+    return result
+end
+
 
 -- Create URL handler JavaScript as a raw block
 ---@return table raw_block A pandoc RawBlock containing the JavaScript URL handler
@@ -98,13 +125,20 @@ end
 -- Load metadata and store it at the module level
 ---@return table meta The processed metadata
 function Meta(meta)
-    document_metadata = meta
+    
+    if meta and meta.tabby then
+        -- Copy all key-value pairs using a loop
+        for key, value in pairs(meta.tabby) do
+            document_metadata.tabby[key] = pandoc.utils.stringify(value)
+        end
+    end
     return meta
 end
 
 -- Process div elements to create tabsets for code blocks under the 'tabby' class
 ---@return table processed_div The processed div element
 function Div(div)
+
     -- Only process divs with class 'tabby'
     if not div.classes:includes('tabby') then
         return div
@@ -135,19 +169,21 @@ function Div(div)
     
     -- Get default language
     local default_lang = get_default_language(local_default)
-    
+
     -- Find the index of the default tab
     local default_index = find_default_tab_index(code_blocks, default_lang)
+
+    -- Reorder blocks so default is first
+    local ordered_blocks = reorder_for_default(code_blocks, default_index)
     
     -- Create tabs for each code block
     ---@type table[]
     local tabs = {}
-    for i, code_block in ipairs(code_blocks) do
+    for i, code_block in ipairs(ordered_blocks) do
         local lang = get_language(code_block)
         local tab = quarto.Tab({
             title = create_tab_label(lang),
-            content = pandoc.Blocks({code_block}),
-            active = (i == default_index)
+            content = pandoc.Blocks({code_block})
         })
         table.insert(tabs, tab)
     end
@@ -193,6 +229,6 @@ end
 -- Return the list of functions to register
 ---@type table<string, function>
 return {
-    Meta = Meta,
-    Div = Div
+    {Meta = Meta},
+    {Div = Div}
 }
