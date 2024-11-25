@@ -1,0 +1,56 @@
+---
+title: Tabby
+format: html
+tabby:
+  default-tab: "Javascript"
+filters: [tabby]
+---
+
+## First Group
+
+::: {.tabby group="setup"}
+```python
+print("Hello from Python!")
+```
+
+```r
+print("Hello from R!")
+```
+
+```javascript
+console.log("Hello from JavaScript!");
+```
+:::
+
+## Second Group
+
+::: {.tabby group="setup"}
+```python
+print("Good Afternoon from Python!")
+```
+
+```r
+print("Good Afternoon from R!")
+```
+
+```javascript
+console.log("Good Afternoon from JavaScript!");
+```
+:::
+
+## Third Group
+
+::: {.tabby}
+```python
+print("Goodbye from Python!")
+```
+
+```r
+print("Goodbye from R!")
+```
+
+```javascript
+console.log("Goodbye from JavaScript!");
+```
+:::
+
