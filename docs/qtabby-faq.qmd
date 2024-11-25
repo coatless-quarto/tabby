@@ -10,7 +10,6 @@ Tabby is a Quarto extension that automatically creates tabsets for code blocks, 
 
 ## How do I use Tabby?
 
-
 To use Tabby, first add the filter to your document's YAML header or your project's `_quarto.yml` file:
 
 ```yaml
@@ -20,7 +19,7 @@ filters:
 
 Then, wrap your code blocks in a div with the `tabby` class:
 
-```markdown
+````markdown
 ::: {.tabby}
 ```python
 print("Hello from Python!")
@@ -30,9 +29,19 @@ print("Hello from Python!")
 console.log("Hello from JavaScript!");
 ```
 :::
+````
+
+The extension will automatically create tabs for each code block, using the language name as the tab label like so:
+
+::: {.tabby}
+```python
+print("Hello from Python!")
 ```
 
-The extension will automatically create tabs for each code block, using the language name as the tab label.
+```javascript
+console.log("Hello from JavaScript!");
+```
+:::
 
 ## How are tab labels generated?
 
@@ -69,7 +78,7 @@ This will automatically select the "Python" tab when the page loads, regardless 
 
 Yes! You can use the `group` attribute to synchronize tab selection across multiple tabsets:
 
-```markdown
+````markdown
 ::: {.tabby group="example1"}
 [code blocks...]
 :::
@@ -77,7 +86,7 @@ Yes! You can use the `group` attribute to synchronize tab selection across multi
 ::: {.tabby group="example1"}
 [code blocks...]
 :::
-```
+````
 
 When you switch tabs in one tabset, all tabsets in the same group will switch to the corresponding tab.
 
