@@ -1,0 +1,113 @@
+---
+title: Tabby Extension FAQ
+filters:
+    - tabby
+---
+
+## What is Tabby?
+
+Tabby is a Quarto extension that automatically creates tabsets for code blocks, allowing you to display multiple code snippets in different languages using a clean, tabbed interface. It leverages Quarto's Tabset API to provide a seamless experience for displaying multi-language code examples.
+
+## How do I use Tabby?
+
+
+To use Tabby, first add the filter to your document's YAML header or your project's `_quarto.yml` file:
+
+```yaml
+filters:
+  - tabby
+```
+
+Then, wrap your code blocks in a div with the `tabby` class:
+
+```markdown
+::: {.tabby}
+```python
+print("Hello from Python!")
+```
+
+```javascript
+console.log("Hello from JavaScript!");
+```
+:::
+```
+
+The extension will automatically create tabs for each code block, using the language name as the tab label.
+
+## How are tab labels generated?
+
+Tab labels are automatically generated from the language identifier of each code block. The first letter is capitalized (e.g., "python" becomes "Python", "javascript" becomes "Javascript").
+
+## Can I specify a default tab?
+
+Yes! You can specify a default tab in two ways:
+
+1. Globally in your document metadata:
+   ```yaml
+   ---
+   tabby:
+     default-tab: python
+   ---
+   ```
+
+2. Locally for a specific tabset:
+   ```markdown
+   ::: {.tabby default-tab="javascript"}
+   ```
+
+## Can I control which tab is shown through the URL?
+
+Yes! You can add a `default-tab` parameter to your URL to override the default tab selection:
+
+```default
+https://example.org/document.html?default-tab=python
+```
+
+This will automatically select the "Python" tab when the page loads, regardless of other default settings.
+
+## Can I group related tabsets together?
+
+Yes! You can use the `group` attribute to synchronize tab selection across multiple tabsets:
+
+```markdown
+::: {.tabby group="example1"}
+[code blocks...]
+:::
+
+::: {.tabby group="example1"}
+[code blocks...]
+:::
+```
+
+When you switch tabs in one tabset, all tabsets in the same group will switch to the corresponding tab.
+
+## What happens if the specified default tab doesn't exist?
+
+If the specified default tab (either through metadata, local attribute, or URL) doesn't match any of the available tabs, the first tab will be selected as a fallback.
+
+## What content can I include in a tabby div?
+
+You can include:
+
+- Code blocks (which will be converted into tabs)
+- Other content (which will appear above the tabset)
+
+## Are there any styling options?
+
+Tabby uses Quarto's built-in tabset styling. You can customize the appearance using Quarto's standard tabset styling options in your theme or custom CSS.
+
+## What if I don't include any code blocks?
+
+If you create a tabby div without any code blocks, the div will be returned unchanged and no tabset will be created.
+
+## Do I need to specify languages for code blocks?
+
+While not required, it's recommended to specify languages for your code blocks as they're used to generate tab labels. If no language is specified, "Text" will be used as the tab label.
+
+## How does the URL parameter work with multiple tabsets?
+
+The URL `default-tab` parameter will affect all tabsets on the page that contain a matching language tab. This is particularly useful when you want to show a specific language across all examples in your document.
+
+## Is there any performance impact?
+
+Tabby is lightweight and processes content during document compilation. There's minimal JavaScript overhead, used only for handling URL parameters when the page loads.

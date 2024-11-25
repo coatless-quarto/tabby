@@ -1,0 +1,15 @@
+---
+title: "Release Notes"
+date: "11-03-2024"
+date-modified: last-modified
+engine: markdown
+format: 
+  html:
+    toc: true
+---
+
+# 0.0.0-dev.1: ?? (??-??-????)
+
+## Features
+
+- Automatic creation of tabsets for code blocks
