@@ -1,5 +1,7 @@
 # Quarto Extension Development with Lua in a Devcontainer
 
+![logo-tabby](https://github.com/user-attachments/assets/2b293570-727a-4ca2-85e6-0c308108772a)
+
 This repository houses a devcontainer that setups a [Quarto extension development environment](https://quarto.org/docs/extensions/lua.html). The container is setup to work with [GitHub Codespaces](https://github.com/features/codespaces) to instantly have a cloud-based developer workflow.
 
 You can try out the Codespace by clicking on the following button:
