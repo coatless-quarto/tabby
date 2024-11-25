@@ -55,7 +55,7 @@ You can set the default selected tab in three ways, listed in order of precedenc
 
 1. **URL Parameter** - Add `?default-tab=python` to your URL
    ```
-   https://your-doc-url.html?default-tab=python
+   https://example.com/document.html?default-tab=python
    ```
 
 2. **Individual Tabset** - Use div attributes:

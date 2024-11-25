@@ -15,7 +15,7 @@ This document demonstrates the Tabby extension for Quarto, which automatically c
 
 ## Document Header
 
-The document header specifies the default tab as Python:
+The document header specifies the default tab as R:
 
 ```markdown
 ---
