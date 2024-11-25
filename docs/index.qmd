@@ -52,7 +52,19 @@ print("Hello, World!")
 
 This will automatically create a tabset with three tabs: "Python", "Javascript", and "R", each containing the respective code.
 
+::: {.tabby}
+```python
+print("Hello, World!")
+```
 
+```javascript
+console.log("Hello, World!");
+```
+
+```r
+print("Hello, World!")
+```
+:::
 
 ### Default Tab Selection
 
