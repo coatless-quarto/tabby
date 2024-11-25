@@ -1,3 +1,7 @@
+> [!IMPORTANT]
+>
+> This extension may change further as it is developed. Please check back for updates.
+
 # Tabby - Automatic Code Tabsets for Quarto <img src="https://github.com/user-attachments/assets/2b293570-727a-4ca2-85e6-0c308108772a" align ="right" alt="Logo: A tabby cat sitting ontop of tabs." width ="150"/>
 
 Tabby is a Quarto extension that automatically creates tabsets for code blocks, making it easy to present multiple programming language implementations side by side. It leverages Quarto's Tabset API to create an integrated tabbing experience.
