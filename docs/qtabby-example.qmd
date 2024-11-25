@@ -1,5 +1,5 @@
 ---
-title: "Demonstrating Tabby Extension"
+title: "Tabby Examples"
 format: 
   html:
     toc: true
