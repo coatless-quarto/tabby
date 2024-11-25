@@ -213,3 +213,7 @@ console.log("Hello from JavaScript!");
 
 You can also specify the default tab via URL parameter:
 `?default-tab=Python` or `?default-tab=R`
+
+Try it by clicking on the following link:
+
+<https://quarto.thecoatlessprofessor.com/tabby/qtabby-example.html?default-tab=Python>
