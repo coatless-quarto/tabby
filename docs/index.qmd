@@ -37,32 +37,32 @@ Create a tabset by wrapping code blocks in a div with the `tabby` class:
 ````markdown
 ::: {.tabby}
 ```{{python}}
-print("Hello, World!")
+print("Hello, Python World!")
 ```
 
 ```javascript
-console.log("Hello, World!");
+console.log("Hello, JavaScript World!");
 ```
 
 ```{{r}}
-print("Hello, World!")
+print("Hello, R World!")
 ```
 :::
 ````
 
-This will automatically create a tabset with three tabs: "Python", "Javascript", and "R", each containing the respective code.
+This will automatically create a tabset with three tabs: "Python", "Javascript", and "R", each containing the respective code and, where applicable, its output.
 
 ::: {.tabby}
 ```{python}
-print("Hello, World!")
+print("Hello, Python World!")
 ```
 
 ```javascript
-console.log("Hello, World!");
+console.log("Hello, JavaScript World!");
 ```
 
 ```{r}
-print("Hello, World!")
+print("Hello, R World!")
 ```
 :::
 
@@ -94,14 +94,14 @@ Synchronize tab selection across multiple tabsets using the `group` attribute, s
 
 ````markdown
 ::: {.tabby group="mygroup"}
-```python
+```{{python}}
 def greet():
     print("Hello!")
 ```
 
-```javascript
-function greet() {
-    console.log("Hello!");
+```{{r}}
+greet <- function() {
+  cat("Hello!\n");
 }
 ```
 :::
@@ -109,17 +109,43 @@ function greet() {
 Some text in between...
 
 ::: {.tabby group="mygroup"}
-```python
+```{{python}}
 greet()
 ```
 
-```javascript
-greet();
+```{{r}}
+greet()
 ```
 :::
 ````
 
 When you switch tabs in one tabset, all tabsets in the same group will switch to the same language.
+
+
+::: {.tabby group="mygroup"}
+```{python}
+def greet():
+    print("Hello!")
+```
+
+```{r}
+greet <- function() {
+  cat("Hello!\n");
+}
+```
+:::
+
+Some text in between...
+
+::: {.tabby group="mygroup"}
+```{python}
+greet()
+```
+
+```{r}
+greet()
+```
+:::
 
 ## Configuration Options
 
