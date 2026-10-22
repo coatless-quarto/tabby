@@ -20,5 +20,4 @@ format:
 
 ## Bug fixes
 
-- `.tabby` blocks render again on Quarto 1.10. Previously, any document that
-  used tabby stopped with "attempt to call a nil value (method 'map')".
+- `.tabby` blocks render on Quarto 1.10.
