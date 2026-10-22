@@ -183,15 +183,15 @@ function Div(div)
     local ordered_blocks = reorder_for_default(code_blocks, default_index)
     
     -- Create tabs for each block
-    ---@type table[]
-    local tabs = {}
+    -- quarto.Tabset calls :map() on tabs, so this must be a pandoc.List
+    local tabs = pandoc.List()
     for _, block in ipairs(ordered_blocks) do
         local lang = get_language(block)
         local tab = quarto.Tab({
             title = create_tab_label(lang),
             content = pandoc.Blocks({block})
         })
-        table.insert(tabs, tab)
+        tabs:insert(tab)
     end
 
     -- Prepare attributes for the tabset
