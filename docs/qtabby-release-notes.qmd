@@ -10,6 +10,15 @@ format:
 
 # 0.0.0-dev.1: ?? (??-??-????)
 
+## Breaking changes
+
+- tabby now requires Quarto 1.10 or later.
+
 ## Features
 
 - Automatic creation of tabsets for code blocks
+
+## Bug fixes
+
+- `.tabby` blocks render again on Quarto 1.10. Previously, any document that
+  used tabby stopped with "attempt to call a nil value (method 'map')".
