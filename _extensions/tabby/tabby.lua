@@ -194,25 +194,23 @@ function Div(div)
         tabs:insert(tab)
     end
 
-    -- Prepare attributes for the tabset
-    ---@type table<string, string>
-    local tabset_attrs = {
-        class = "tabby-group"
-    }
-    
+    -- Prepare attributes for the tabset. Pandoc attributes keep insertion
+    -- order, so assigning one at a time gives stable output across renders.
+    local tabset_attr = pandoc.Attr("", {"panel-tabset"})
+
     if group_attr then
-        tabset_attrs["group"] = group_attr
+        tabset_attr.attributes["group"] = group_attr
     end
-    
+
     if default_lang then
-        tabset_attrs["default-tab"] = default_lang
+        tabset_attr.attributes["default-tab"] = default_lang
     end
 
     -- Create the tabset
     local tabset_raw, _ = quarto.Tabset({
         level = 3,
-        tabs = pandoc.List(tabs),
-        attr = pandoc.Attr("", {"panel-tabset"}, tabset_attrs)
+        tabs = tabs,
+        attr = tabset_attr
     })
 
     -- Create final content
