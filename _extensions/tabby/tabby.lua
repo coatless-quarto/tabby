@@ -211,7 +211,7 @@ function Div(div)
     -- Create the tabset
     local tabset_raw, _ = quarto.Tabset({
         level = 3,
-        tabs = tabs,
+        tabs = pandoc.List(tabs),
         attr = pandoc.Attr("", {"panel-tabset"}, tabset_attrs)
     })
 
