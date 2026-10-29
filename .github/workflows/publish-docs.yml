@@ -30,6 +30,10 @@ jobs:
         - name: "Install Dependencies" 
           run: pip install -r docs/requirements.txt
 
+        # reticulate 1.41+ builds its own environment unless told which Python to use
+        - name: "Point reticulate at this Python"
+          run: echo "RETICULATE_PYTHON=$(which python)" >> "$GITHUB_ENV"
+
         - name: "Setup R"
           uses: r-lib/actions/setup-r@v2
   
