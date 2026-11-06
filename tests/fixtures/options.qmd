@@ -1,0 +1,27 @@
+---
+title: "tabby default tab"
+filters:
+  - tabby
+tabby:
+  default-tab: python
+---
+
+::: {.tabby}
+```r
+getwd()
+```
+
+```python
+os.getcwd()
+```
+:::
+
+::: {.tabby group="lang" default-tab="bash"}
+```r
+getwd()
+```
+
+```bash
+pwd
+```
+:::
