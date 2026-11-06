@@ -1,0 +1,20 @@
+---
+title: "tabby basics"
+filters:
+  - tabby
+---
+
+::: {.tabby}
+```r
+getwd()
+```
+
+```python
+import os
+os.getcwd()
+```
+
+```bash
+pwd
+```
+:::
