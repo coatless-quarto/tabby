@@ -118,6 +118,13 @@ tabby:
   default-tab: python    # Default tab selection
 ```
 
+## Learn more
+
+- [Documentation](https://quarto.thecoatlessprofessor.com/tabby/)
+- [Release notes](https://quarto.thecoatlessprofessor.com/tabby/qtabby-release-notes.html)
+- [Blog posts](https://blog.thecoatlessprofessor.com/projects/tabby/)
+- Discuss on [Mastodon](https://mastodon.social/@coatless/113542832427367445), [Bluesky](https://bsky.app/profile/coatless.bsky.social/post/3lbr6q5gp4s27), [LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7266742005605515264/) or [X](https://x.com/axiomsofxyz/status/1860975517014315429)
+
 ## License
 
 tabby is licensed under AGPL-3.0-or-later with an exception: what you write and render with tabby stays yours, along with the output, under any terms you like. See [LICENSE](LICENSE) and [LICENSE-EXCEPTION.md](LICENSE-EXCEPTION.md).
