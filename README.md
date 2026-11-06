@@ -117,3 +117,7 @@ Configure options in your document's YAML frontmatter:
 tabby:
   default-tab: python    # Default tab selection
 ```
+
+## License
+
+tabby is licensed under AGPL-3.0-or-later with an exception: what you write and render with tabby stays yours, along with the output, under any terms you like. See [LICENSE](LICENSE) and [LICENSE-EXCEPTION.md](LICENSE-EXCEPTION.md).
